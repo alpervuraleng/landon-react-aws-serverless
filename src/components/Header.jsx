@@ -1,4 +1,8 @@
+import { useState } from "react";
+
 export default function Header ({linksData}) {
+    const [menuLinks, setMenuLinks] = useState([]);
+
     return (
       <header id="intro">
         <article className="fullheight">
