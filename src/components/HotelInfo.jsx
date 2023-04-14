@@ -1,6 +1,19 @@
-import services from "./data/services.json";
+//import services from "./data/services.json";
+import { useState, useEffect } from "react";
 
 export default function HotelInfo () {
+  const [services, setServices] = useState([]);
+
+  const loadServices = async function() {
+    const resp = await fetch("https://c2szu1x7f1.execute-api.us-east-2.amazonaws.com/Production/services");
+    let jsonResp = await resp.json();
+    setServices(jsonResp);
+  }
+
+  useEffect(() => {
+    loadServices();
+  }, []);
+
     return (
       <div className="scene" id="hotelinfo">
       <article className="heading">
@@ -23,7 +36,7 @@ export default function HotelInfo () {
           <p>Our services and amenities are designed to make your travel easy, your stay comfortable, and your experience one-of-a-kind.</p>
           <ul>
             {
-              services.map((service) => <li>{service.text}</li>)
+              services.map((service) => <li key={service.text}>{service.text}</li>)
             }
           </ul>
         </section>

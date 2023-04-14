@@ -1,7 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Header ({linksData}) {
     const [menuLinks, setMenuLinks] = useState([]);
+
+    const loadMenuLinksData = async function() {
+      const resp = await fetch("https://c2szu1x7f1.execute-api.us-east-2.amazonaws.com/Production/menulinks");
+      let jsonResp = await resp.json();
+      setMenuLinks(jsonResp);
+    }
+
+    useEffect(() => {
+      loadMenuLinksData();
+    }, []);
 
     return (
       <header id="intro">
@@ -18,8 +28,8 @@ export default function Header ({linksData}) {
             <div className="brand"><a href="#welcome">Landon <span>Hotel</span></a></div>
             <ul>
               {
-                linksData.map((link) => 
-                  <li><a className={`info ${link.className}`} href={link.href}><span>{link.text}</span></a></li>
+                menuLinks.map((link) => 
+                  <li key={link.href}><a className={`info ${link.className}`} href={link.href}><span>{link.text}</span></a></li>
                 ) 
               }
             </ul>
